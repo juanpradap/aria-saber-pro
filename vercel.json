@@ -1,9 +1,5 @@
 {
   "version": 2,
-  "functions": {
-    "aPI/chat.js": { "runtime": "@vercel/node" },
-    "api/guardar.js": { "runtime": "@vercel/node" }
-  },
   "rewrites": [
     { "source": "/api/chat", "destination": "/aPI/chat" },
     { "source": "/api/guardar", "destination": "/api/guardar" },
