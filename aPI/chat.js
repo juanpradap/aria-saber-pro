@@ -1,46 +1,41 @@
 export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  
+  if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Método no permitido' });
 
-  const { historial, nombre, modulo } = req.body;
   const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY no encontrada en variables de entorno' });
 
-  if (!apiKey) return res.status(500).json({ error: 'API key no configurada. Ve a Vercel → Settings → Environment Variables y agrega GEMINI_API_KEY.' });
+  const { historial } = req.body || {};
+  if (!historial) return res.status(400).json({ error: 'Falta el historial' });
 
   try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: historial,
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 1200,
-            topP: 0.9
-          },
-          safetySettings: [
-            { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
-            { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' }
-          ]
-        })
-      }
-    );
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: historial,
+        generationConfig: { temperature: 0.7, maxOutputTokens: 1200 }
+      })
+    });
 
     const data = await response.json();
-
-    if (!response.ok || data.error) {
-      console.error('Gemini error:', data);
-      return res.status(500).json({ error: data.error?.message || 'Error de Gemini API' });
+    
+    if (!response.ok) {
+      return res.status(500).json({ error: `Gemini error ${response.status}: ${JSON.stringify(data.error)}` });
     }
 
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!text) return res.status(500).json({ error: 'Respuesta vacía de Gemini' });
+    if (!text) return res.status(500).json({ error: 'Respuesta vacía: ' + JSON.stringify(data).slice(0,200) });
 
     return res.status(200).json({ text });
 
   } catch (err) {
-    console.error('Server error:', err);
-    return res.status(500).json({ error: 'Error interno del servidor: ' + err.message });
+    return res.status(500).json({ error: 'Error: ' + err.message });
   }
 }
