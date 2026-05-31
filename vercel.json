@@ -1,8 +1,6 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/api/chat", "destination": "/aPI/chat" },
-    { "source": "/api/guardar", "destination": "/api/guardar" },
     { "source": "/(.*)", "destination": "/public/$1" }
   ]
 }
