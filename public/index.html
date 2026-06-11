@@ -5,632 +5,710 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ARIA — Tutor Saber Pro</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
+  --accent:#2f81f7;--accent2:#a371f7;--success:#3fb950;--warn:#d29922;--danger:#f85149;
+  --text:#e6edf3;--text2:#8b949e;--text3:#484f58;--font:'Inter',sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
 
-  :root {
-    --bg: #0f1117;
-    --surface: #1a1d27;
-    --surface2: #22263a;
-    --border: rgba(255,255,255,0.08);
-    --accent: #4f8ef7;
-    --accent2: #7c5af7;
-    --success: #34c98a;
-    --warn: #f5a623;
-    --danger: #f75a5a;
-    --text: #e8eaf0;
-    --text2: #8b90a7;
-    --text3: #555a72;
-    --radius: 12px;
-    --font: 'DM Sans', sans-serif;
-    --mono: 'DM Mono', monospace;
-  }
+/* ── LOGIN ── */
+#login{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1rem}
+.login-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2.5rem;width:100%;max-width:460px}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:2rem}
+.brand-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.brand h1{font-size:22px;font-weight:700}
+.brand p{font-size:12px;color:var(--text2);margin-top:2px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.field input,.field select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:14px;font-family:var(--font);color:var(--text);outline:none;transition:border-color .15s}
+.field input:focus,.field select:focus{border-color:var(--accent)}
+.field select option{background:var(--surface2)}
+.btn-primary{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:600;font-family:var(--font);color:#fff;cursor:pointer;margin-top:8px;transition:opacity .15s}
+.btn-primary:hover{opacity:.88}
+.err{color:var(--danger);font-size:12px;margin-top:8px;display:none}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── HISTORIAL EN LOGIN ── */
+.hist-prev{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.hist-prev h3{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:10px}
+.hist-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.hist-item:hover{border-color:var(--accent)}
+.hist-item .hi-name{font-size:13px;font-weight:600}
+.hist-item .hi-meta{font-size:11px;color:var(--text2);margin-top:3px}
+.hist-item .hi-stats{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
+.hi-tag{background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:2px 8px;font-size:11px;color:var(--text2)}
 
-  body {
-    font-family: var(--font);
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
+/* ── APP ── */
+#app{display:none;height:100vh;flex-direction:column}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:var(--surface);border-bottom:1px solid var(--border);flex-wrap:wrap;gap:6px;flex-shrink:0}
+.topbar-left{display:flex;align-items:center;gap:10px}
+.avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+.uname{font-size:13px;font-weight:600}
+.umod{font-size:11px;color:var(--text2)}
+.stats{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.pill{background:var(--surface2);border:1px solid var(--border);border-radius:99px;padding:3px 9px;font-size:11px;color:var(--text2);display:flex;align-items:center;gap:3px}
+.pill strong{color:var(--text);font-weight:600}
+.pill.g strong{color:var(--success)}
+.pill.r strong{color:var(--danger)}
+.nivel-badge{background:rgba(47,129,247,.15);border:1px solid var(--accent);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:600;color:var(--accent)}
+.topbar-btns{display:flex;gap:6px}
+.tb-btn{background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:5px 10px;font-size:12px;font-family:var(--font);color:var(--text2);cursor:pointer;transition:all .15s}
+.tb-btn:hover{border-color:var(--accent);color:var(--accent)}
 
-  /* ── LOGIN ── */
-  #login-screen {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-  }
+/* ── MAIN ── */
+.main{display:flex;flex:1;overflow:hidden}
 
-  .login-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 2.5rem;
-    width: 100%;
-    max-width: 420px;
-  }
+/* ── SIDEBAR ── */
+.sidebar{width:250px;background:var(--surface);border-right:1px solid var(--border);padding:12px;overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column;gap:10px}
+.sb-title{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.session-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 11px}
+.sc-row{display:flex;justify-content:space-between;font-size:11px;padding:2px 0;border-bottom:1px solid var(--border)}
+.sc-row:last-child{border:none}
+.sc-label{color:var(--text2)}
+.sc-val{font-weight:600;color:var(--text)}
+.progress-item{background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:8px 10px;margin-bottom:6px}
+.mod-name{font-size:11px;font-weight:500;margin-bottom:5px}
+.bar-wrap{background:var(--border);border-radius:99px;height:5px;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s}
+.prog-stats{display:flex;justify-content:space-between;margin-top:3px;font-size:10px;color:var(--text2)}
+.export-btn{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px;font-size:12px;font-family:var(--font);color:var(--text2);cursor:pointer;transition:all .15s;text-align:center}
+.export-btn:hover{border-color:var(--success);color:var(--success)}
 
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 1.8rem;
-  }
+/* ── MÓDULO SELECTOR ── */
+#mod-selector{display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;padding:2rem;gap:1rem;overflow-y:auto}
+.ms-title{font-size:20px;font-weight:700;text-align:center;margin-bottom:0.5rem}
+.ms-sub{font-size:14px;color:var(--text2);text-align:center;margin-bottom:1rem}
+.ms-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;width:100%;max-width:700px}
+.ms-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;cursor:pointer;transition:all .15s;text-align:left}
+.ms-card:hover{border-color:var(--accent);background:rgba(47,129,247,.06)}
+.ms-card.has-data{border-color:rgba(63,185,80,.4)}
+.ms-card .mc-name{font-size:13px;font-weight:600;margin-bottom:4px}
+.ms-card .mc-type{font-size:11px;color:var(--text2);margin-bottom:6px}
+.ms-card .mc-stats{font-size:11px;color:var(--success)}
 
-  .logo-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-  }
+/* ── CHAT ── */
+.chat-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+#messages::-webkit-scrollbar{width:4px}
+#messages::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:2px}
+.msg{display:flex;gap:8px;max-width:88%}
+.msg.user{align-self:flex-end;flex-direction:row-reverse}
+.msg.aria{align-self:flex-start}
+.msg-av{width:27px;height:27px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;margin-top:2px}
+.msg.aria .msg-av{background:linear-gradient(135deg,var(--accent),var(--accent2))}
+.msg.user .msg-av{background:var(--surface2);border:1px solid var(--border);font-weight:700}
+.bubble{padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+.msg.aria .bubble{background:var(--surface2);border:1px solid var(--border);border-top-left-radius:3px}
+.msg.user .bubble{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-top-right-radius:3px}
+.bubble.typing{color:var(--text2);font-style:italic}
+.opts{display:flex;flex-direction:column;gap:5px;margin-top:8px}
+.opt{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:8px 11px;font-size:12px;font-family:var(--font);color:var(--text);cursor:pointer;text-align:left;display:flex;gap:7px;align-items:flex-start;transition:all .15s}
+.opt:hover{border-color:var(--accent);background:rgba(47,129,247,.08)}
+.opt .ltr{font-weight:700;color:var(--accent);min-width:18px}
+.opt.correct{border-color:var(--success)!important;background:rgba(63,185,80,.1)!important}
+.opt.wrong{border-color:var(--danger)!important;background:rgba(248,81,73,.1)!important}
+.nivel-chips{display:flex;gap:5px;padding:7px 14px;border-top:1px solid var(--border);flex-wrap:wrap;background:var(--surface);flex-shrink:0}
+.nc{background:var(--surface2);border:1px solid var(--border);border-radius:99px;padding:3px 10px;font-size:11px;font-family:var(--font);color:var(--text2);cursor:pointer;transition:all .15s}
+.nc:hover{border-color:var(--accent);color:var(--accent)}
+.nc.active{background:rgba(47,129,247,.15);border-color:var(--accent);color:var(--accent);font-weight:600}
+.input-row{padding:9px 12px;border-top:1px solid var(--border);display:flex;gap:7px;align-items:flex-end;background:var(--bg);flex-shrink:0}
+#txt{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;font-family:var(--font);color:var(--text);outline:none;resize:none;min-height:38px;max-height:100px;transition:border-color .15s;line-height:1.5}
+#txt:focus{border-color:var(--accent)}
+#txt::placeholder{color:var(--text3)}
+.send{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:8px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:15px;transition:opacity .15s}
+.send:hover{opacity:.85}
+.send:disabled{opacity:.35;cursor:not-allowed}
 
-  .logo-text { line-height: 1.2; }
-  .logo-text h1 { font-size: 20px; font-weight: 600; }
-  .logo-text p { font-size: 12px; color: var(--text2); }
+/* ── MODAL HISTORIAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.show{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.5rem;width:100%;max-width:600px;max-height:80vh;overflow-y:auto}
+.modal h2{font-size:18px;font-weight:700;margin-bottom:1rem}
+.modal-close{float:right;background:none;border:none;color:var(--text2);font-size:20px;cursor:pointer;margin-top:-4px}
+.hist-session{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px}
+.hs-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.hs-date{font-size:12px;color:var(--text2)}
+.hs-mods{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.hs-mod{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:11px}
 
-  .login-title { font-size: 15px; font-weight: 500; margin-bottom: 1.4rem; color: var(--text2); }
-
-  .field { margin-bottom: 14px; }
-  .field label { display: block; font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .04em; }
-
-  .field input, .field select {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 11px 14px;
-    font-size: 14px;
-    font-family: var(--font);
-    color: var(--text);
-    outline: none;
-    transition: border-color .2s;
-  }
-
-  .field input:focus, .field select:focus { border-color: var(--accent); }
-  .field select option { background: var(--surface2); }
-
-  .btn-primary {
-    width: 100%;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border: none;
-    border-radius: 10px;
-    padding: 13px;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: var(--font);
-    color: #fff;
-    cursor: pointer;
-    margin-top: 6px;
-    transition: opacity .2s, transform .1s;
-  }
-
-  .btn-primary:hover { opacity: .9; }
-  .btn-primary:active { transform: scale(.98); }
-  .btn-primary:disabled { opacity: .4; cursor: not-allowed; }
-
-  /* ── APP ── */
-  #app-screen { display: none; flex: 1; flex-direction: column; max-width: 800px; width: 100%; margin: 0 auto; padding: 1rem; }
-
-  .topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .topbar-left { display: flex; align-items: center; gap: 10px; }
-  .avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; flex-shrink: 0; }
-  .user-info p { font-size: 13px; font-weight: 500; }
-  .user-info span { font-size: 11px; color: var(--text2); }
-
-  .stats-bar { display: flex; gap: 8px; flex-wrap: wrap; }
-  .stat-pill { background: var(--surface2); border: 1px solid var(--border); border-radius: 99px; padding: 4px 12px; font-size: 12px; color: var(--text2); display: flex; align-items: center; gap: 5px; }
-  .stat-pill strong { color: var(--text); font-weight: 500; }
-
-  /* chat */
-  #chat-area {
-    flex: 1;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    min-height: 0;
-    height: calc(100vh - 200px);
-  }
-
-  #messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1.2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    scroll-behavior: smooth;
-  }
-
-  #messages::-webkit-scrollbar { width: 4px; }
-  #messages::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 2px; }
-
-  .msg { display: flex; gap: 10px; max-width: 85%; }
-  .msg.user { align-self: flex-end; flex-direction: row-reverse; }
-  .msg.aria { align-self: flex-start; }
-
-  .msg-avatar { width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; margin-top: 2px; }
-  .msg.aria .msg-avatar { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
-  .msg.user .msg-avatar { background: var(--surface2); border: 1px solid var(--border); font-size: 11px; font-weight: 600; }
-
-  .msg-bubble {
-    padding: 11px 14px;
-    border-radius: 14px;
-    font-size: 14px;
-    line-height: 1.65;
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-
-  .msg.aria .msg-bubble { background: var(--surface2); border: 1px solid var(--border); border-top-left-radius: 4px; }
-  .msg.user .msg-bubble { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; border-top-right-radius: 4px; }
-
-  .msg-bubble.typing { color: var(--text2); font-style: italic; }
-
-  /* opciones A B C D */
-  .options-grid { display: flex; flex-direction: column; gap: 7px; margin-top: 10px; }
-  .opt-btn {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 14px;
-    font-size: 13px;
-    font-family: var(--font);
-    color: var(--text);
-    cursor: pointer;
-    text-align: left;
-    transition: all .15s;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-  }
-  .opt-btn:hover { border-color: var(--accent); background: rgba(79,142,247,.08); }
-  .opt-btn .opt-letter { font-weight: 600; color: var(--accent); min-width: 18px; }
-  .opt-btn.correct { border-color: var(--success); background: rgba(52,201,138,.1); }
-  .opt-btn.wrong { border-color: var(--danger); background: rgba(247,90,90,.1); }
-  .opt-btn:disabled { cursor: not-allowed; opacity: .7; }
-
-  /* input */
-  .input-area {
-    padding: 12px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 8px;
-    align-items: flex-end;
-  }
-
-  #user-input {
-    flex: 1;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 14px;
-    font-size: 14px;
-    font-family: var(--font);
-    color: var(--text);
-    outline: none;
-    resize: none;
-    min-height: 42px;
-    max-height: 120px;
-    transition: border-color .2s;
-    line-height: 1.5;
-  }
-
-  #user-input:focus { border-color: var(--accent); }
-  #user-input::placeholder { color: var(--text3); }
-
-  .send-btn {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border: none;
-    border-radius: 10px;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: opacity .2s;
-    font-size: 18px;
-  }
-  .send-btn:hover { opacity: .85; }
-  .send-btn:disabled { opacity: .35; cursor: not-allowed; }
-
-  .module-selector {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    padding: 10px 12px;
-    border-top: 1px solid var(--border);
-    background: var(--surface);
-  }
-  .mod-chip {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 99px;
-    padding: 5px 12px;
-    font-size: 12px;
-    font-family: var(--font);
-    color: var(--text2);
-    cursor: pointer;
-    transition: all .15s;
-  }
-  .mod-chip:hover { border-color: var(--accent); color: var(--accent); }
-
-  #session-end {
-    display: none;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    text-align: center;
-    margin-top: 12px;
-  }
-  #session-end h3 { font-size: 18px; margin-bottom: 8px; }
-  #session-end p { font-size: 13px; color: var(--text2); margin-bottom: 1rem; }
-  .score-big { font-size: 48px; font-weight: 600; background: linear-gradient(135deg, var(--accent), var(--success)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-  .error-msg { color: var(--danger); font-size: 13px; margin-top: 8px; display: none; }
+@media(max-width:640px){.sidebar{display:none}}
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
-<div id="login-screen">
-  <div class="login-box">
-    <div class="logo">
-      <div class="logo-icon">🎓</div>
-      <div class="logo-text">
+<div id="login">
+  <div class="login-card">
+    <div class="brand">
+      <div class="brand-icon">🎓</div>
+      <div>
         <h1>ARIA</h1>
-        <p>Tutor Saber Pro · Administración</p>
+        <p>Tutor Saber Pro · Administración de Empresas · UNIMINUTO</p>
       </div>
     </div>
-    <p class="login-title">Ingresa tus datos para comenzar</p>
-
     <div class="field">
       <label>Nombre completo</label>
-      <input type="text" id="inp-nombre" placeholder="Ej: María Pérez" autocomplete="name">
+      <input id="inp-nombre" type="text" placeholder="Ej: María Pérez">
     </div>
     <div class="field">
       <label>Código estudiantil</label>
-      <input type="text" id="inp-codigo" placeholder="Ej: 202015234">
+      <input id="inp-codigo" type="text" placeholder="Ej: 202015234">
     </div>
-    <div class="field">
-      <label>Módulo a practicar hoy</label>
-      <select id="inp-modulo">
-        <option value="">— Selecciona un módulo —</option>
-        <option value="Formulación, Evaluación y Gestión de Proyectos">Formulación, Evaluación y Gestión de Proyectos</option>
-        <option value="Gestión de Organizaciones">Gestión de Organizaciones</option>
-        <option value="Lectura Crítica">Lectura Crítica</option>
-        <option value="Razonamiento Cuantitativo">Razonamiento Cuantitativo</option>
-        <option value="Inglés">Inglés</option>
-        <option value="Competencias Ciudadanas">Competencias Ciudadanas</option>
-        <option value="Comunicación Escrita">Comunicación Escrita</option>
-      </select>
+    <p class="err" id="login-err">Por favor completa todos los campos.</p>
+    <button class="btn-primary" onclick="startSession()">Entrar →</button>
+    <div class="hist-prev" id="hist-prev" style="display:none">
+      <h3>📋 Tus sesiones anteriores</h3>
+      <div id="hist-list"></div>
     </div>
-    <p class="error-msg" id="login-error">Por favor completa todos los campos.</p>
-    <button class="btn-primary" onclick="startSession()">Comenzar práctica →</button>
   </div>
 </div>
 
 <!-- APP -->
-<div id="app-screen">
+<div id="app">
   <div class="topbar">
     <div class="topbar-left">
-      <div class="avatar" id="user-avatar">?</div>
-      <div class="user-info">
-        <p id="user-name-display">Estudiante</p>
-        <span id="modulo-display">Módulo</span>
+      <div class="avatar" id="av">?</div>
+      <div>
+        <div class="uname" id="uname">Estudiante</div>
+        <div class="umod" id="umod">Selecciona un módulo</div>
       </div>
     </div>
-    <div class="stats-bar">
-      <div class="stat-pill">Preguntas: <strong id="stat-total">0</strong></div>
-      <div class="stat-pill">✓ <strong id="stat-correctas" style="color:var(--success)">0</strong></div>
-      <div class="stat-pill">✗ <strong id="stat-incorrectas" style="color:var(--danger)">0</strong></div>
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+      <div class="nivel-badge" id="nivel-badge">Nivel: Intermedio</div>
+      <div class="stats">
+        <div class="pill">Q: <strong id="s-total">0</strong></div>
+        <div class="pill g">✓ <strong id="s-ok">0</strong></div>
+        <div class="pill r">✗ <strong id="s-err">0</strong></div>
+        <div class="pill">% <strong id="s-pct">—</strong></div>
+      </div>
+    </div>
+    <div class="topbar-btns">
+      <button class="tb-btn" onclick="showModSelector()">🔄 Cambiar módulo</button>
+      <button class="tb-btn" onclick="showHistorial()">📊 Historial</button>
+      <button class="tb-btn" onclick="exportarCSV()">⬇ Exportar</button>
     </div>
   </div>
 
-  <div id="chat-area">
-    <div id="messages"></div>
-    <div class="input-area">
-      <textarea id="user-input" placeholder="Escribe tu respuesta o mensaje..." rows="1"
-        onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-      <button class="send-btn" id="send-btn" onclick="sendMessage()" title="Enviar">➤</button>
+  <div class="main">
+    <!-- SIDEBAR DASHBOARD -->
+    <div class="sidebar">
+      <div>
+        <div class="sb-title">Sesión actual</div>
+        <div class="session-card">
+          <div class="sc-row"><span class="sc-label">Módulo activo</span><span class="sc-val" id="d-modulo" style="font-size:10px">—</span></div>
+          <div class="sc-row"><span class="sc-label">Nivel</span><span class="sc-val" id="d-nivel">—</span></div>
+          <div class="sc-row"><span class="sc-label">Preguntas</span><span class="sc-val" id="d-total">0</span></div>
+          <div class="sc-row"><span class="sc-label">Correctas</span><span class="sc-val" style="color:var(--success)" id="d-ok">0</span></div>
+          <div class="sc-row"><span class="sc-label">Incorrectas</span><span class="sc-val" style="color:var(--danger)" id="d-err">0</span></div>
+          <div class="sc-row"><span class="sc-label">Precisión</span><span class="sc-val" id="d-pct">—</span></div>
+          <div class="sc-row"><span class="sc-label">Racha actual</span><span class="sc-val" style="color:var(--success)" id="d-racha">0</span></div>
+          <div class="sc-row"><span class="sc-label">Mejor racha</span><span class="sc-val" id="d-best">0</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="sb-title">Progreso por módulo</div>
+        <div id="mod-bars"></div>
+      </div>
+      <button class="export-btn" onclick="exportarCSV()">⬇ Exportar resultados CSV</button>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+
+      <!-- SELECTOR DE MÓDULO -->
+      <div id="mod-selector">
+        <div class="ms-title">¿En qué módulo quieres practicar?</div>
+        <div class="ms-sub">Selecciona un módulo para comenzar o continuar tu entrenamiento</div>
+        <div class="ms-grid" id="ms-grid"></div>
+      </div>
+
+      <!-- CHAT -->
+      <div class="chat-wrap" id="chat-wrap" style="display:none">
+        <div id="messages"></div>
+        <div class="nivel-chips">
+          <span style="font-size:11px;color:var(--text2);align-self:center;margin-right:4px">Nivel:</span>
+          <button class="nc active" onclick="setNivel('Intermedio',this)">Intermedio</button>
+          <button class="nc" onclick="setNivel('Avanzado',this)">Avanzado</button>
+          <button class="nc" onclick="setNivel('Experto',this)">Experto</button>
+          <button class="nc" onclick="setNivel('Adaptativo',this)" style="margin-left:auto">🔄 Auto</button>
+        </div>
+        <div class="input-row">
+          <textarea id="txt" placeholder="Escribe tu respuesta o pregunta…" rows="1"
+            onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+          <button class="send" id="send-btn" onclick="sendMsg()">➤</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
+<!-- MODAL HISTORIAL -->
+<div class="modal-overlay" id="modal-hist">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-hist')">×</button>
+    <h2>📊 Historial de sesiones</h2>
+    <div id="hist-sessions"></div>
+  </div>
+</div>
+
 <script>
-// ── Estado global ──
-const STATE = {
-  nombre: '', codigo: '', modulo: '',
-  historial: [],
-  totalPreguntas: 0,
-  correctas: 0,
-  incorrectas: 0,
-  esperandoRespuesta: false,
-  sessionId: Date.now()
+// ════════════════════════════════
+// ESTADO GLOBAL
+// ════════════════════════════════
+const MODULOS = [
+  {name:'Formulación, Evaluación y Gestión de Proyectos', type:'Específico'},
+  {name:'Gestión de Organizaciones', type:'Específico'},
+  {name:'Gestión Financiera', type:'Específico'},
+  {name:'Lectura Crítica', type:'Genérico'},
+  {name:'Razonamiento Cuantitativo', type:'Genérico'},
+  {name:'Inglés', type:'Genérico'},
+  {name:'Competencias Ciudadanas', type:'Genérico'},
+  {name:'Comunicación Escrita', type:'Genérico'}
+];
+
+const S = {
+  nombre:'', codigo:'', modulo:'',
+  nivel:'Intermedio', adaptativo:false,
+  history:[], total:0, ok:0, err:0,
+  racha:0, bestRacha:0, consOk:0, consErr:0,
+  modProgress:{}, sessionLog:[], waiting:false,
+  sessionStart: new Date().toISOString()
 };
 
-// ── SYSTEM PROMPT de ARIA ──
-function buildSystemPrompt(nombre, modulo) {
-  return `Eres ARIA, tutora especializada en preparar estudiantes de Administración de Empresas para el examen Saber Pro del ICFES en Colombia.
+// Inicializar progreso
+MODULOS.forEach(m=>{ S.modProgress[m.name]={ok:0,total:0,sessions:0}; });
 
-El estudiante se llama ${nombre} y quiere practicar el módulo: ${modulo}.
+// ════════════════════════════════
+// PERSISTENCIA (localStorage)
+// ════════════════════════════════
+function saveToStorage(){
+  try{
+    const key=`aria_${S.codigo}`;
+    const data=JSON.parse(localStorage.getItem(key)||'{}');
+    data.nombre=S.nombre; data.codigo=S.codigo;
+    if(!data.sessions) data.sessions=[];
+    if(S.total>0){
+      data.sessions.push({
+        fecha: new Date().toLocaleString('es-CO'),
+        modulo: S.modulo,
+        nivel: S.nivel,
+        total: S.total, ok: S.ok, err: S.err,
+        pct: S.total>0?Math.round(S.ok/S.total*100):0,
+        racha: S.bestRacha
+      });
+    }
+    // Acumular progreso por módulo
+    if(!data.modProgress) data.modProgress={};
+    MODULOS.forEach(m=>{
+      if(!data.modProgress[m.name]) data.modProgress[m.name]={ok:0,total:0};
+      data.modProgress[m.name].ok+=S.modProgress[m.name].ok;
+      data.modProgress[m.name].total+=S.modProgress[m.name].total;
+    });
+    localStorage.setItem(key, JSON.stringify(data));
+  }catch(e){}
+}
+
+function loadFromStorage(codigo){
+  try{
+    const key=`aria_${codigo}`;
+    return JSON.parse(localStorage.getItem(key)||'null');
+  }catch(e){return null;}
+}
+
+function getAllStudents(){
+  const students=[];
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k.startsWith('aria_')){
+      try{students.push(JSON.parse(localStorage.getItem(k)));}catch(e){}
+    }
+  }
+  return students;
+}
+
+// ════════════════════════════════
+// LOGIN
+// ════════════════════════════════
+document.getElementById('inp-codigo').addEventListener('blur', function(){
+  const cod=this.value.trim();
+  if(!cod) return;
+  const data=loadFromStorage(cod);
+  if(data){
+    document.getElementById('inp-nombre').value=data.nombre||'';
+    showHistPreview(data);
+  }
+});
+
+function showHistPreview(data){
+  if(!data||!data.sessions||data.sessions.length===0) return;
+  const container=document.getElementById('hist-prev');
+  const list=document.getElementById('hist-list');
+  const last3=data.sessions.slice(-3).reverse();
+  list.innerHTML=last3.map(s=>`
+    <div class="hist-item">
+      <div class="hi-name">${s.modulo.length>35?s.modulo.slice(0,35)+'…':s.modulo}</div>
+      <div class="hi-meta">${s.fecha} · Nivel: ${s.nivel}</div>
+      <div class="hi-stats">
+        <span class="hi-tag">✓ ${s.ok}/${s.total}</span>
+        <span class="hi-tag">${s.pct}% precisión</span>
+        <span class="hi-tag">🔥 ${s.racha} racha</span>
+      </div>
+    </div>`).join('');
+  container.style.display='block';
+}
+
+function startSession(){
+  const n=document.getElementById('inp-nombre').value.trim();
+  const c=document.getElementById('inp-codigo').value.trim();
+  if(!n||!c){document.getElementById('login-err').style.display='block';return;}
+  S.nombre=n; S.codigo=c;
+  // Cargar progreso acumulado si existe
+  const prev=loadFromStorage(c);
+  if(prev&&prev.modProgress){
+    MODULOS.forEach(m=>{
+      if(prev.modProgress[m.name]){
+        S.modProgress[m.name].ok=prev.modProgress[m.name].ok||0;
+        S.modProgress[m.name].total=prev.modProgress[m.name].total||0;
+      }
+    });
+  }
+  document.getElementById('login').style.display='none';
+  document.getElementById('app').style.display='flex';
+  document.getElementById('av').textContent=n[0].toUpperCase();
+  document.getElementById('uname').textContent=n;
+  renderModBars();
+  showModSelector();
+}
+
+// ════════════════════════════════
+// SELECTOR DE MÓDULO
+// ════════════════════════════════
+function showModSelector(){
+  document.getElementById('chat-wrap').style.display='none';
+  document.getElementById('mod-selector').style.display='flex';
+  document.getElementById('umod').textContent='Selecciona un módulo';
+  renderModGrid();
+}
+
+function renderModGrid(){
+  const grid=document.getElementById('ms-grid');
+  grid.innerHTML=MODULOS.map(m=>{
+    const p=S.modProgress[m.name];
+    const pct=p.total>0?Math.round(p.ok/p.total*100):0;
+    const hasData=p.total>0;
+    return`<div class="ms-card ${hasData?'has-data':''}" onclick="selectModule('${m.name.replace(/'/g,"\\'")}')">
+      <div class="mc-name">${m.name}</div>
+      <div class="mc-type">${m.type}</div>
+      ${hasData?`<div class="mc-stats">✓ ${p.ok}/${p.total} · ${pct}% precisión</div>`:'<div style="font-size:11px;color:var(--text3)">Sin entrenar aún</div>'}
+    </div>`;
+  }).join('');
+}
+
+function selectModule(modName){
+  S.modulo=modName;
+  S.total=0; S.ok=0; S.err=0;
+  S.racha=0; S.bestRacha=0; S.consOk=0; S.consErr=0;
+  S.history=[];
+  // Reset progreso de sesión para este módulo (no el acumulado)
+  S.modProgress[modName].sesionOk=0; S.modProgress[modName].sesionTotal=0;
+  document.getElementById('umod').textContent=modName.length>30?modName.slice(0,30)+'…':modName;
+  document.getElementById('d-modulo').textContent=modName.length>22?modName.slice(0,22)+'…':modName;
+  document.getElementById('messages').innerHTML='';
+  document.getElementById('mod-selector').style.display='none';
+  document.getElementById('chat-wrap').style.display='flex';
+  updateStats();
+  callAI('Hola, estoy listo para practicar.');
+}
+
+// ════════════════════════════════
+// SYSTEM PROMPT
+// ════════════════════════════════
+function buildSystem(){
+  const p=S.modProgress[S.modulo];
+  const pct=p.total>0?Math.round(p.ok/p.total*100):0;
+  return`Eres ARIA, tutora especializada en preparar estudiantes de Administración de Empresas de UNIMINUTO para el examen Saber Pro del ICFES en Colombia.
+
+ESTUDIANTE: ${S.nombre} (código: ${S.codigo})
+MÓDULO ACTIVO: ${S.modulo}
+NIVEL: ${S.nivel}${S.adaptativo?' [ADAPTATIVO]':''}
+HISTORIAL EN ESTE MÓDULO: ${p.total} preguntas, ${pct}% precisión acumulada
 
 INSTRUCCIONES OBLIGATORIAS:
-1. Saluda a ${nombre} por su nombre, menciona el módulo elegido y presenta inmediatamente la primera pregunta de práctica.
-2. Cada pregunta debe tener formato EXACTO: enunciado claro + 4 opciones etiquetadas A), B), C), D). Usa casos colombianos o latinoamericanos reales.
-3. Presenta SOLO UNA pregunta a la vez. Espera la respuesta antes de continuar.
-4. Después de cada respuesta da retroalimentación profunda:
-   - Si CORRECTA: confirma con entusiasmo, explica el concepto, da un tip extra.
-   - Si INCORRECTA: sin lenguaje negativo, explica el error conceptual, muestra por qué cada opción incorrecta lo es, conecta con algo conocido.
-5. Adapta dificultad: 3 correctas seguidas = sube nivel; 2 incorrectas seguidas = baja nivel.
-6. Al detectar que el estudiante quiere terminar (dice "terminar", "fin", "ya acabé") presenta un resumen final con: total de preguntas, % de acierto, competencias más débiles y plan de acción.
-
-CALIDAD DE PREGUNTAS según módulo:
-- Formulación de Proyectos: VPN, TIR, Marco Lógico, indicadores, evaluación ex-ante.
-- Gestión de Organizaciones: planeación, organización, dirección, control, casos empresariales.
-- Lectura Crítica: textos de máx 250 palabras, preguntas de inferencia y análisis.
-- Razonamiento Cuantitativo: tablas, gráficos, interpretación numérica.
-- Inglés: textos nivel B1-B2, preguntas en inglés, retroalimentación bilingüe.
-- Competencias Ciudadanas: dilemas éticos, participación, derechos.
-- Comunicación Escrita: coherencia, cohesión, estructura textual.
-
-TONO: cercano, motivador, profesional. Eres paciente y celebras el esfuerzo.
-IMPORTANTE: Las opciones de respuesta NO deben incluir letras al inicio (sin A., B., C., D.) en el texto de cada opción, solo en la etiqueta. Ejemplo correcto: "A) El VPN positivo indica viabilidad".`;
+1. Saluda brevemente a ${S.nombre} por su nombre y presenta de inmediato la primera pregunta en nivel ${S.nivel}.
+2. FORMATO EXACTO de cada pregunta:
+   - Enunciado con contexto colombiano/latinoamericano real (empresas, proyectos, organizaciones reales)
+   - Exactamente 4 opciones en líneas separadas:
+   A) [texto opción]
+   B) [texto opción]
+   C) [texto opción]
+   D) [texto opción]
+3. UNA sola pregunta a la vez. Espera respuesta antes de continuar.
+4. RETROALIMENTACIÓN obligatoria tras cada respuesta:
+   Si CORRECTA: "✅ ¡Correcto, ${S.nombre}!" + concepto + por qué las OTRAS 3 son incorrectas + tip profesional + al final escribe exactamente: RESULTADO:CORRECTO
+   Si INCORRECTA: "❌ No es esa." + error conceptual específico + explicación desde cero con ejemplo + por qué CADA opción incorrecta lo es + conexión práctica + al final escribe exactamente: RESULTADO:INCORRECTO
+5. Después de la retroalimentación, presenta automáticamente la siguiente pregunta.
+6. NIVELES:
+   - Intermedio: conceptos fundamentales, aplicación directa, casos simples
+   - Avanzado: análisis multi-variable, casos complejos, decisiones con trade-offs
+   - Experto: evaluación crítica, síntesis, ambigüedad, formato idéntico al Saber Pro real
+7. NUNCA reveles la respuesta antes de que el estudiante responda.
+8. Módulo Inglés: preguntas y opciones en inglés, retroalimentación en español.
+9. Tono: cercano, motivador, académicamente riguroso. Celebra el esfuerzo por encima del resultado.`;
 }
 
-// ── Login ──
-function startSession() {
-  const nombre = document.getElementById('inp-nombre').value.trim();
-  const codigo = document.getElementById('inp-codigo').value.trim();
-  const modulo = document.getElementById('inp-modulo').value;
-  const err = document.getElementById('login-error');
-
-  if (!nombre || !codigo || !modulo) {
-    err.style.display = 'block';
-    return;
-  }
-  err.style.display = 'none';
-
-  STATE.nombre = nombre;
-  STATE.codigo = codigo;
-  STATE.modulo = modulo;
-
-  document.getElementById('user-avatar').textContent = nombre.charAt(0).toUpperCase();
-  document.getElementById('user-name-display').textContent = nombre;
-  document.getElementById('modulo-display').textContent = modulo;
-
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app-screen').style.display = 'flex';
-
-  iniciarChat();
-}
-
-// ── Chat ──
-function iniciarChat() {
-  const systemPrompt = buildSystemPrompt(STATE.nombre, STATE.modulo);
-  STATE.historial = [{ role: 'user', parts: [{ text: systemPrompt }] }];
-  callGemini('Hola, estoy listo para practicar.');
-}
-
-function addMessage(role, text, opciones) {
-  const msgs = document.getElementById('messages');
-  const div = document.createElement('div');
-  div.className = 'msg ' + role;
-
-  const avatarDiv = document.createElement('div');
-  avatarDiv.className = 'msg-avatar';
-  avatarDiv.textContent = role === 'aria' ? '🎓' : STATE.nombre.charAt(0).toUpperCase();
-
-  const bubble = document.createElement('div');
-  bubble.className = 'msg-bubble';
-  bubble.textContent = text;
-
-  if (opciones && opciones.length > 0) {
-    const grid = document.createElement('div');
-    grid.className = 'options-grid';
-    opciones.forEach((op, i) => {
-      const letters = ['A', 'B', 'C', 'D'];
-      const btn = document.createElement('button');
-      btn.className = 'opt-btn';
-      btn.innerHTML = `<span class="opt-letter">${letters[i]})</span><span>${op}</span>`;
-      btn.onclick = () => selectOption(btn, letters[i], op, grid);
-      grid.appendChild(btn);
+// ════════════════════════════════
+// CHAT
+// ════════════════════════════════
+function addMsg(role,text,opts){
+  const wrap=document.getElementById('messages');
+  const div=document.createElement('div');
+  div.className='msg '+role;
+  const av=document.createElement('div');
+  av.className='msg-av';
+  av.textContent=role==='aria'?'🎓':S.nombre[0].toUpperCase();
+  const bub=document.createElement('div');
+  bub.className='bubble';
+  const clean=text.replace(/RESULTADO:(CORRECTO|INCORRECTO)/g,'').trim();
+  bub.textContent=clean;
+  if(opts&&opts.length===4){
+    const og=document.createElement('div');
+    og.className='opts';
+    ['A','B','C','D'].forEach((l,i)=>{
+      const b=document.createElement('button');
+      b.className='opt';
+      b.innerHTML=`<span class="ltr">${l})</span><span>${opts[i]}</span>`;
+      b.onclick=()=>selectOpt(b,l,og);
+      og.appendChild(b);
     });
-    bubble.appendChild(grid);
+    bub.appendChild(og);
   }
-
-  div.appendChild(avatarDiv);
-  div.appendChild(bubble);
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-  return div;
+  div.appendChild(av); div.appendChild(bub);
+  wrap.appendChild(div);
+  wrap.scrollTop=wrap.scrollHeight;
 }
 
-function selectOption(btn, letra, texto, grid) {
-  Array.from(grid.querySelectorAll('.opt-btn')).forEach(b => b.disabled = true);
-  const userMsg = `${letra}) ${texto}`;
-  addMessage('user', userMsg);
-  STATE.totalPreguntas++;
-  sendToAria(userMsg);
+function addTyping(){
+  const wrap=document.getElementById('messages');
+  const div=document.createElement('div');
+  div.className='msg aria'; div.id='typing';
+  div.innerHTML=`<div class="msg-av">🎓</div><div class="bubble typing">ARIA está pensando…</div>`;
+  wrap.appendChild(div);
+  wrap.scrollTop=wrap.scrollHeight;
+}
+function removeTyping(){const e=document.getElementById('typing');if(e)e.remove();}
+
+function selectOpt(btn,letra,grid){
+  Array.from(grid.querySelectorAll('.opt')).forEach(b=>{b.onclick=null;b.disabled=true;});
+  const resp=`${letra}) ${btn.querySelector('span:last-child').textContent}`;
+  addMsg('user',resp);
+  S.total++;
+  callAI(resp);
 }
 
-function addTyping() {
-  const msgs = document.getElementById('messages');
-  const div = document.createElement('div');
-  div.className = 'msg aria';
-  div.id = 'typing-indicator';
-  div.innerHTML = `
-    <div class="msg-avatar">🎓</div>
-    <div class="msg-bubble typing">ARIA está pensando...</div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function removeTyping() {
-  const el = document.getElementById('typing-indicator');
-  if (el) el.remove();
-}
-
-// ── Gemini API ──
-async function callGemini(userText) {
-  document.getElementById('send-btn').disabled = true;
-  document.getElementById('user-input').disabled = true;
-  STATE.esperandoRespuesta = true;
-  addTyping();
-
-  STATE.historial.push({ role: 'user', parts: [{ text: userText }] });
-
-  try {
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        historial: STATE.historial,
-        nombre: STATE.nombre,
-        codigo: STATE.codigo,
-        modulo: STATE.modulo,
-        stats: {
-          total: STATE.totalPreguntas,
-          correctas: STATE.correctas,
-          incorrectas: STATE.incorrectas
-        }
+async function callAI(userMsg){
+  document.getElementById('send-btn').disabled=true;
+  document.getElementById('txt').disabled=true;
+  S.waiting=true; addTyping();
+  S.history.push({role:'user',content:userMsg});
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:buildSystem(),
+        messages:S.history
       })
     });
-
-    const data = await res.json();
+    const data=await res.json();
     removeTyping();
-
-    if (data.error) throw new Error(data.error);
-
-    const respuesta = data.text;
-    STATE.historial.push({ role: 'model', parts: [{ text: respuesta }] });
-
-    // Detectar si hay opciones A) B) C) D) en la respuesta
-    const opciones = extraerOpciones(respuesta);
-    const textoLimpio = opciones.length > 0 ? quitarOpciones(respuesta) : respuesta;
-
-    // Detectar acierto/error en retroalimentación
-    if (userText.match(/^[ABCD]\)/)) {
-      if (respuesta.toLowerCase().includes('correcto') ||
-          respuesta.toLowerCase().includes('excelente') ||
-          respuesta.toLowerCase().includes('muy bien') ||
-          respuesta.toLowerCase().includes('¡bien')) {
-        STATE.correctas++;
-      } else {
-        STATE.incorrectas++;
+    const reply=data.content?.[0]?.text||'Error al obtener respuesta.';
+    S.history.push({role:'assistant',content:reply});
+    // Detectar resultado
+    const esRespuesta=userMsg.match(/^[ABCD]\)/);
+    if(esRespuesta){
+      const correcto=/RESULTADO:CORRECTO/.test(reply)||/✅/.test(reply);
+      if(correcto){
+        S.ok++; S.racha++; S.consOk++; S.consErr=0;
+        if(S.racha>S.bestRacha) S.bestRacha=S.racha;
+        S.modProgress[S.modulo].ok++;
+        if(S.adaptativo&&S.consOk>=3) promoteNivel();
+      }else{
+        S.err++; S.racha=0; S.consErr++; S.consOk=0;
+        if(S.adaptativo&&S.consErr>=2) demoteNivel();
       }
+      S.modProgress[S.modulo].total++;
+      // Log para exportar
+      S.sessionLog.push({
+        fecha:new Date().toLocaleString('es-CO'),
+        nombre:S.nombre, codigo:S.codigo,
+        modulo:S.modulo, nivel:S.nivel,
+        pregunta_num:S.total,
+        resultado:correcto?'Correcto':'Incorrecto',
+        precision:Math.round(S.ok/S.total*100)+'%'
+      });
       updateStats();
+      saveToStorage();
     }
-
-    addMessage('aria', textoLimpio, opciones);
-
-    // Guardar progreso si hay pregunta respondida
-    if (userText.match(/^[ABCD]\)/)) guardarProgreso(userText, respuesta);
-
-  } catch (err) {
+    const opts=extractOpts(reply);
+    addMsg('aria',reply,opts);
+  }catch(e){
     removeTyping();
-    addMessage('aria', '⚠️ Hubo un error al conectar con el servidor. Por favor recarga la página e intenta de nuevo.');
-    console.error(err);
+    addMsg('aria','⚠️ Error de conexión. Intenta de nuevo en un momento.');
   }
-
-  document.getElementById('send-btn').disabled = false;
-  document.getElementById('user-input').disabled = false;
-  document.getElementById('user-input').focus();
-  STATE.esperandoRespuesta = false;
+  document.getElementById('send-btn').disabled=false;
+  document.getElementById('txt').disabled=false;
+  document.getElementById('txt').focus();
+  S.waiting=false;
 }
 
-function extraerOpciones(texto) {
-  const lineas = texto.split('\n');
-  const opts = [];
-  lineas.forEach(l => {
-    const m = l.match(/^[A-D]\)\s+(.+)/);
-    if (m) opts.push(m[1].trim());
+function extractOpts(text){
+  const lines=text.split('\n');
+  const opts=[];
+  lines.forEach(l=>{const m=l.match(/^[A-D]\)\s*(.+)/);if(m)opts.push(m[1].trim());});
+  return opts.length===4?opts:[];
+}
+
+// ════════════════════════════════
+// NIVEL ADAPTATIVO
+// ════════════════════════════════
+function setNivel(nv,btn){
+  S.adaptativo=(nv==='Adaptativo');
+  S.nivel=S.adaptativo?'Intermedio':nv;
+  document.querySelectorAll('.nc').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updateNivelBadge();
+}
+function promoteNivel(){
+  const lvls=['Intermedio','Avanzado','Experto'];
+  const i=lvls.indexOf(S.nivel);
+  if(i<2){S.nivel=lvls[i+1];S.consOk=0;updateNivelBadge();
+    addMsg('aria',`⬆️ ¡Excelente racha! Subiendo a nivel ${S.nivel}.`,[]);}
+}
+function demoteNivel(){
+  const lvls=['Intermedio','Avanzado','Experto'];
+  const i=lvls.indexOf(S.nivel);
+  if(i>0){S.nivel=lvls[i-1];S.consErr=0;updateNivelBadge();
+    addMsg('aria',`⬇️ Volvemos a nivel ${S.nivel} para reforzar las bases.`,[]);}
+}
+function updateNivelBadge(){
+  const lbl=S.adaptativo?`🔄 ${S.nivel}`:S.nivel;
+  document.getElementById('nivel-badge').textContent='Nivel: '+lbl;
+  document.getElementById('d-nivel').textContent=lbl;
+}
+
+// ════════════════════════════════
+// STATS Y DASHBOARD
+// ════════════════════════════════
+function updateStats(){
+  const pct=S.total>0?Math.round(S.ok/S.total*100)+'%':'—';
+  ['total','ok','err'].forEach(k=>{
+    document.getElementById('s-'+k).textContent=S[k];
+    document.getElementById('d-'+k).textContent=S[k];
   });
-  return opts.length === 4 ? opts : [];
+  document.getElementById('s-pct').textContent=pct;
+  document.getElementById('d-pct').textContent=pct;
+  document.getElementById('d-racha').textContent=S.racha;
+  document.getElementById('d-best').textContent=S.bestRacha;
+  renderModBars();
 }
 
-function quitarOpciones(texto) {
-  return texto.split('\n').filter(l => !l.match(/^[A-D]\)\s+/)).join('\n').trim();
+function renderModBars(){
+  const c=document.getElementById('mod-bars');
+  c.innerHTML=MODULOS.map(m=>{
+    const p=S.modProgress[m.name];
+    const pct=p.total>0?Math.round(p.ok/p.total*100):0;
+    const active=m.name===S.modulo;
+    return`<div class="progress-item" style="${active?'border-color:var(--accent)':''}">
+      <div class="mod-name" style="${active?'color:var(--accent)':''}">${m.name.length>28?m.name.slice(0,28)+'…':m.name}</div>
+      <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%"></div></div>
+      <div class="prog-stats"><span>${p.ok}/${p.total}</span><span>${pct}%</span></div>
+    </div>`;
+  }).join('');
 }
 
-function updateStats() {
-  document.getElementById('stat-total').textContent = STATE.totalPreguntas;
-  document.getElementById('stat-correctas').textContent = STATE.correctas;
-  document.getElementById('stat-incorrectas').textContent = STATE.incorrectas;
+// ════════════════════════════════
+// HISTORIAL MODAL
+// ════════════════════════════════
+function showHistorial(){
+  const data=loadFromStorage(S.codigo);
+  const container=document.getElementById('hist-sessions');
+  if(!data||!data.sessions||data.sessions.length===0){
+    container.innerHTML='<p style="color:var(--text2);font-size:13px">Aún no tienes sesiones guardadas.</p>';
+  }else{
+    const sessions=[...data.sessions].reverse();
+    container.innerHTML=sessions.map((s,i)=>`
+      <div class="hist-session">
+        <div class="hs-header">
+          <div>
+            <div style="font-size:13px;font-weight:600">${s.modulo.length>40?s.modulo.slice(0,40)+'…':s.modulo}</div>
+            <div class="hs-date">${s.fecha} · Nivel: ${s.nivel}</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:18px;font-weight:700;color:${s.pct>=70?'var(--success)':s.pct>=50?'var(--warn)':'var(--danger)'}">${s.pct}%</div>
+            <div style="font-size:11px;color:var(--text2)">${s.ok}/${s.total} correctas</div>
+          </div>
+        </div>
+        <div class="hs-mods">
+          <span class="hs-mod">🔥 Mejor racha: ${s.racha}</span>
+          <span class="hs-mod">📝 ${s.total} preguntas</span>
+        </div>
+      </div>`).join('');
+  }
+  document.getElementById('modal-hist').classList.add('show');
 }
+function closeModal(id){document.getElementById(id).classList.remove('show');}
 
-async function guardarProgreso(preguntaResp, retroalimentacion) {
-  try {
-    await fetch('/api/guardar', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nombre: STATE.nombre,
-        codigo: STATE.codigo,
-        modulo: STATE.modulo,
-        respuesta: preguntaResp,
-        correctas: STATE.correctas,
-        incorrectas: STATE.incorrectas,
-        total: STATE.totalPreguntas,
-        fecha: new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })
-      })
+// ════════════════════════════════
+// EXPORTAR CSV
+// ════════════════════════════════
+function exportarCSV(){
+  const data=loadFromStorage(S.codigo);
+  if(!data||!data.sessions||data.sessions.length===0){
+    // Exportar sesión actual si hay datos
+    if(S.sessionLog.length===0){alert('No hay datos para exportar aún.');return;}
+  }
+  // Combinar historial guardado + sesión actual
+  const rows=[['Fecha','Nombre','Código','Módulo','Nivel','Pregunta #','Resultado','Precisión']];
+  // Sesión actual
+  S.sessionLog.forEach(r=>{
+    rows.push([r.fecha,r.nombre,r.codigo,r.modulo,r.nivel,r.pregunta_num,r.resultado,r.precision]);
+  });
+  // Historial previo en formato resumen
+  if(data&&data.sessions){
+    data.sessions.forEach(s=>{
+      rows.push([s.fecha,data.nombre,S.codigo,s.modulo,s.nivel,'(resumen)',`${s.ok}/${s.total} correctas`,s.pct+'%']);
     });
-  } catch (e) {
-    console.warn('No se pudo guardar el progreso:', e);
   }
+  const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`ARIA_${S.codigo}_${S.nombre.replace(/ /g,'_')}_${new Date().toLocaleDateString('es-CO').replace(/\//g,'-')}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
-// ── Enviar texto libre ──
-function sendMessage() {
-  const input = document.getElementById('user-input');
-  const text = input.value.trim();
-  if (!text || STATE.esperandoRespuesta) return;
-  input.value = '';
-  input.style.height = 'auto';
-  addMessage('user', text);
-  sendToAria(text);
+// ════════════════════════════════
+// INPUT
+// ════════════════════════════════
+function sendMsg(){
+  const t=document.getElementById('txt');
+  const text=t.value.trim();
+  if(!text||S.waiting) return;
+  t.value=''; t.style.height='auto';
+  addMsg('user',text);
+  callAI(text);
 }
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
+function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';}
 
-function sendToAria(text) {
-  callGemini(text);
-}
-
-function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-}
-
-function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
-}
+// Guardar al cerrar
+window.addEventListener('beforeunload',saveToStorage);
 </script>
 </body>
 </html>
